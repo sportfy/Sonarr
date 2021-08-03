@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using FluentValidation.Results;
 using NLog;
@@ -8,12 +7,9 @@ using NzbDrone.Common.Extensions;
 using NzbDrone.Common.Http;
 using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.MediaFiles.MediaInfo;
-using NzbDrone.Core.Tv;
 using NzbDrone.Core.Notifications.Trakt.Resource;
 using NzbDrone.Core.Qualities;
-using NzbDrone.Core.MetadataSource.SkyHook.Resource;
-using NzbDrone.Core.Indexers.HDBits;
-using NzbDrone.Core.IndexerSearch;
+using NzbDrone.Core.Tv;
 
 namespace NzbDrone.Core.Notifications.Trakt
 {
@@ -60,7 +56,7 @@ namespace NzbDrone.Core.Notifications.Trakt
             try
             {
                 GetUserName(settings.AccessToken);
-                
+
                 return null;
             }
             catch (HttpException ex)
@@ -68,18 +64,18 @@ namespace NzbDrone.Core.Notifications.Trakt
                 if (ex.Response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _logger.Error(ex, "Access Token is invalid: " + ex.Message);
-                    
+
                     return new ValidationFailure("Token", "Access Token is invalid");
                 }
 
                 _logger.Error(ex, "Unable to send test message: " + ex.Message);
-                
+
                 return new ValidationFailure("Token", "Unable to send test message");
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Unable to send test message: " + ex.Message);
-                
+
                 return new ValidationFailure("", "Unable to send test message");
             }
         }
@@ -110,7 +106,7 @@ namespace NzbDrone.Core.Notifications.Trakt
                     Audio = audio,
                 });
             }
-            
+
             var payloadSeasons = new List<TraktSeasonResource>();
             payloadSeasons.Add(new TraktSeasonResource
             {
@@ -128,7 +124,7 @@ namespace NzbDrone.Core.Notifications.Trakt
                     Imdb = series.ImdbId ?? "",
                 },
                 Seasons = payloadSeasons,
-            }); ;
+            });
 
             _proxy.AddToCollection(payload, settings.AccessToken);
         }
@@ -167,7 +163,7 @@ namespace NzbDrone.Core.Notifications.Trakt
                     Imdb = series.ImdbId ?? "",
                 },
                 Seasons = payloadSeasons,
-            }); ;
+            });
 
             _proxy.RemoveFromCollection(payload, settings.AccessToken);
         }
@@ -188,7 +184,7 @@ namespace NzbDrone.Core.Notifications.Trakt
                     Tvdb = series.TvdbId,
                     Imdb = series.ImdbId ?? "",
                 },
-            }); ;
+            });
 
             _proxy.RemoveFromCollection(payload, settings.AccessToken);
         }
@@ -222,8 +218,8 @@ namespace NzbDrone.Core.Notifications.Trakt
         private string MapResolution(int resolution, string scanType)
         {
             var traktResolution = string.Empty;
-            //var interlacedTypes = new string[] { "Interlaced", "MBAFF", "PAFF" };
 
+            //var interlacedTypes = new string[] { "Interlaced", "MBAFF", "PAFF" };
             var scanIdentifier = scanType.IsNotNullOrWhiteSpace() && TraktInterlacedTypes.interlacedTypes.Contains(scanType) ? "i" : "p";
 
             switch (resolution)
@@ -316,7 +312,7 @@ namespace NzbDrone.Core.Notifications.Trakt
         private string MapAudioChannels(EpisodeFile episodeFile, string audioFormat)
         {
             var audioChannels = episodeFile.MediaInfo != null ? MediaInfoFormatter.FormatAudioChannels(episodeFile.MediaInfo).ToString("0.0") : string.Empty;
-                       
+
             return audioChannels;
         }
     }
