@@ -11,6 +11,8 @@ testPackageFolderLinux='./_tests_linux'
 sourceFolder='./src'
 slnFile=$sourceFolder/Sonarr.sln
 updateSubFolder=Sonarr.Update
+ 
+sqlitePackageDir="$HOME/.nuget/packages/system.data.sqlite.core.lidarr/1.0.113.0-0"
 
 nuget='tools/nuget/nuget.exe';
 vswhere='tools/vswhere/vswhere.exe';
@@ -134,6 +136,9 @@ Build()
     fi
 
     CleanFolder $outputFolder false
+
+    echo "Removing Sonarr.Update/sqlite3.dll"
+    rm $outputFolder/Sonarr.Update/sqlite3.dll
 
     echo "Removing Mono.Posix.dll"
     rm $outputFolder/Mono.Posix.dll
@@ -284,11 +289,11 @@ PackageMacOS()
     mv $outputFolderMacOS/Sonarr.Update/Sonarr.Update.exe.bak $outputFolderMacOS/Sonarr.Update/Sonarr.Update.exe
     chmod +x $outputFolderMacOS/Sonarr.Update/Sonarr.Update
 
-    echo "Adding sqlite dylibs"
-    cp $sourceFolder/Libraries/Sqlite/*.dylib $outputFolderMacOS
+    echo "Adding sqlite dylib"
+    cp "$sqlitePackageDir/runtimes/osx-x64/native/net46"/* $outputFolderMacOS
 
     echo "Adding MediaInfo dylib"
-    cp $sourceFolder/Libraries/MediaInfo/*.dylib $outputFolderMacOS
+    cp $sourceFolder/Libraries/MediaInfo/x64/*.dylib $outputFolderMacOS
 
     ProgressEnd 'Creating MacOS Package'
 }
@@ -311,11 +316,11 @@ PackageMacOSApp()
     mkdir -p $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin
     cp -r $outputFolderLinux/* $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/
 
-    echo "Adding sqlite dylibs"
-    cp $sourceFolder/Libraries/Sqlite/*.dylib $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/
+    echo "Adding sqlite dylib"
+    cp "$sqlitePackageDir/runtimes/osx-x64/native/net46"/* $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/
 
     echo "Adding MediaInfo dylib"
-    cp $sourceFolder/Libraries/MediaInfo/*.dylib $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/
+    cp $sourceFolder/Libraries/MediaInfo/x64/*.dylib $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/
 
     echo "Removing Update Folder"
     rm -r $outputFolderMacOSApp/Sonarr.app/Contents/MacOS/bin/Sonarr.Update
