@@ -12,7 +12,7 @@ sourceFolder='./src'
 slnFile=$sourceFolder/Sonarr.sln
 updateSubFolder=Sonarr.Update
  
-sqlitePackageDir="$HOME/.nuget/packages/system.data.sqlite.core.servarr/1.0.115.5-12"
+sqlitePackageDir="$HOME/.nuget/packages/system.data.sqlite.core.servarr/1.0.115.5-18"
 
 nuget='tools/nuget/nuget.exe';
 vswhere='tools/vswhere/vswhere.exe';
