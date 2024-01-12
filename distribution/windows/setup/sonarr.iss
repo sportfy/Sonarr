@@ -7,7 +7,7 @@
 #define ForumsURL "https://forums.sonarr.tv/"
 #define AppExeName "Sonarr.exe"
 #define BuildNumber "4.0"
-#define BuildNumber GetEnv('SONARR_VERSION')
+#define BuildNumber "4.0"
 #define MajorVersion GetEnv('SONARR_MAJOR_VERSION')
 #define BranchName GetEnv('BRANCH')
 #define Framework GetEnv('FRAMEWORK')
@@ -17,7 +17,7 @@
 ; NOTE: The value of AppId uniquely identifies this appl ication.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{56C1065D-3523-4025-B76D-6F73F67F7F71}
+AppId={{EF6F54A7-1778-4F34-9060-3FBA127D20C8}
 AppName={#AppName}
 AppVersion={#MajorVersion}
 AppPublisher={#AppPublisher}
@@ -29,7 +29,7 @@ DefaultDirName={commonappdata}\Sonarr\bin
 DisableDirPage=yes
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=Sonarr.{#BranchName}.{#BuildNumber}.{#Runtime}-installer
+OutputBaseFilename=Sonarr.{#BranchName}-{#BuildNumber}-{#Runtime}-installer
 SolidCompression=yes
 AppCopyright=Creative Commons 3.0 License
 AllowUNCPath=False
@@ -55,11 +55,12 @@ Name: "none"; Description: "Do not start automatically"; GroupDescription: "Star
 [Files]
 Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\Sonarr.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\*"; Excludes: "Sonarr.Update"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\*%RUNTIME%*.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Parameters: "/icon"
-Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Parameters: "/icon"; Tasks: desktopIcon
+Name: "{group}\{#AppName}"; Filename: "{app}\Sonarr.exe"; Parameters: "/icon"
+Name: "{commondesktop}\{#AppName}"; Filename: "{app}\Sonarr.exe"; Parameters: "/icon"; Tasks: desktopIcon
 Name: "{userstartup}\{#AppName}"; Filename: "{app}\Sonarr.exe"; WorkingDir: "{app}"; Tasks: startupShortcut
 
 [InstallDelete]
@@ -67,8 +68,8 @@ Name: "{commonappdata}\NzbDrone\bin"; Type: filesandordirs
 Name: "{app}"; Type: filesandordirs
 
 [Run]
-Filename: "{app}\Sonarr.Console.exe"; StatusMsg: "Removing previous Windows Service"; Parameters: "/u /exitimmediately"; Flags: runhidden waituntilterminated;
-Filename: "{app}\Sonarr.Console.exe"; Description: "Enable Access from Other Devices"; StatusMsg: "Enabling Remote access"; Parameters: "/registerurl /exitimmediately"; Flags: postinstall runascurrentuser runhidden waituntilterminated; Tasks: startupShortcut none;
+Filename: "{app}\Sonarr.exe"; StatusMsg: "Removing previous Windows Service"; Parameters: "/u /exitimmediately"; Flags: runhidden waituntilterminated;
+Filename: "{app}\Sonarr.exe"; Description: "Enable Access from Other Devices and Register URL"; StatusMsg: "Enabling Remote access"; Parameters: "/registerurl /exitimmediately"; Flags: postinstall runascurrentuser runhidden waituntilterminated; Tasks: startupShortcut none;
 Filename: "{app}\Sonarr.Console.exe"; StatusMsg: "Installing Windows Service"; Parameters: "/i /exitimmediately"; Flags: runhidden waituntilterminated; Tasks: windowsService
 Filename: "{app}\Sonarr.exe"; Description: "Open Sonarr Web UI"; Flags: postinstall skipifsilent nowait; Tasks: windowsService;
 Filename: "{app}\Sonarr.exe"; Description: "Start Sonarr"; Flags: postinstall skipifsilent nowait; Tasks: startupShortcut none;
