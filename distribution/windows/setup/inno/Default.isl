@@ -11,7 +11,7 @@
 [LangOptions]
 ; The following three entries are very important. Be sure to read and 
 ; understand the '[LangOptions] section' topic in the help file.
-LanguageName=English
+LanguageName=English (Modified)
 LanguageID=$0409
 LanguageCodePage=0
 ; If the language you are translating to requires special font faces or
@@ -45,12 +45,12 @@ LdrCannotExecTemp=Unable to execute file in the temporary directory. Setup abort
 
 ; *** Startup error messages
 LastErrorMessage=%1.%n%nError %2: %3
-SetupFileMissing=The file %1 is missing from the installation directory. Please correct the problem or obtain a new copy of the program.
-SetupFileCorrupt=The setup files are corrupted. Please obtain a new copy of the program.
+SetupFileMissing=The file %1 is missing from the installation directory. Please verify that the file exists at the specified location.
+SetupFileCorrupt=The setup files are corrupted. Please obtain a new copy of the program from a trusted source.
 SetupFileCorruptOrWrongVer=The setup files are corrupted, or are incompatible with this version of Setup. Please correct the problem or obtain a new copy of the program.
-InvalidParameter=An invalid parameter was passed on the command line:%n%n%1
-SetupAlreadyRunning=Setup is already running.
-WindowsVersionNotSupported=This program does not support the version of Windows your computer is running.
+InvalidParameter=An invalid parameter was passed on the command line:%n%nPlease check the provided parameter and try again.
+SetupAlreadyRunning=Another instance of the setup is already running.
+WindowsVersionNotSupported=This program does not support the version of Windows currently running on your computer.
 WindowsServicePackRequired=This program requires %1 Service Pack %2 or later.
 NotOnThisPlatform=This program will not run on %1.
 OnlyOnThisPlatform=This program must be run on %1.
@@ -64,11 +64,11 @@ SetupAppRunningError=Setup has detected that %1 is currently running.%n%nPlease 
 UninstallAppRunningError=Uninstall has detected that %1 is currently running.%n%nPlease close all instances of it now, then click OK to continue, or Cancel to exit.
 
 ; *** Misc. errors
-ErrorCreatingDir=Setup was unable to create the directory "%1"
+ErrorCreatingDir=Setup was unable to create the directory "%1". Please ensure that you have the necessary permissions.
 ErrorTooManyFilesInDir=Unable to create a file in the directory "%1" because it contains too many files
 
 ; *** Setup common messages
-ExitSetupTitle=Exit Setup
+ExitSetupTitle=Exit Setup (Warning)
 ExitSetupMessage=Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
 AboutSetupMenuItem=&About Setup...
 AboutSetupTitle=About Setup
