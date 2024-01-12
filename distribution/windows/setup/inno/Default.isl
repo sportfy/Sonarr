@@ -3,7 +3,7 @@
 ; To download user-contributed translations of this file, go to:
 ;   http://www.jrsoftware.org/files/istrans/
 ;
-; Note: When translating this text, do not add periods (.) to the end of
+; Note: When translating this text, do not add periods (.) to the end of the messages that didn't have them already, because on those messages Inno Setup adds the periods automatically.
 ; messages that didn't have them already, because on those messages Inno
 ; Setup adds the periods automatically (appending a period would result in
 ; two periods being displayed).
@@ -11,7 +11,7 @@
 [LangOptions]
 ; The following three entries are very important. Be sure to read and 
 ; understand the '[LangOptions] section' topic in the help file.
-LanguageName=English
+LanguageName=English (United States)
 LanguageID=$0409
 LanguageCodePage=0
 ; If the language you are translating to requires special font faces or
