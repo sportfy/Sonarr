@@ -1,0 +1,27 @@
+import pytest
+from project.module import function1, function2
+
+# Test case for module.function1
+def test_function1():
+    # Test case 1
+    assert function1(1) == 2
+
+    # Test case 2
+    assert function1(0) == 1
+
+    # Test case 3
+    assert function1(-1) == 0
+
+# Test case for module.function2
+def test_function2():
+    # Test case 1
+    assert function2([1, 2, 3]) == 6
+
+    # Test case 2
+    assert function2([]) == 0
+
+    # Test case 3
+    assert function2([-1, -2, -3]) == -6
+
+if __name__ == "__main__":
+    pytest.main()
