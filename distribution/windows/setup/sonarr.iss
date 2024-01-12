@@ -55,6 +55,7 @@ Name: "none"; Description: "Do not start automatically"; GroupDescription: "Star
 [Files]
 Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\Sonarr.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\*"; Excludes: "Sonarr.Update"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\*%RUNTIME%*.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
