@@ -59,8 +59,8 @@ Source: "..\..\..\_artifacts\{#Runtime}\{#Framework}\Sonarr\*%RUNTIME%*.exe"; De
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Parameters: "/icon"
-Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Parameters: "/icon"; Tasks: desktopIcon
+Name: "{group}\{#AppName}"; Filename: "{app}\Sonarr.exe"; Parameters: "/icon"
+Name: "{commondesktop}\{#AppName}"; Filename: "{app}\Sonarr.exe"; Parameters: "/icon"; Tasks: desktopIcon
 Name: "{userstartup}\{#AppName}"; Filename: "{app}\Sonarr.exe"; WorkingDir: "{app}"; Tasks: startupShortcut
 
 [InstallDelete]
