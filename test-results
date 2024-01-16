@@ -1,0 +1,18 @@
+import os
+
+def create_test_results_directory():
+    directory_path = os.path.join("distribution", "windows", "setup", "inno", "test-results")
+    
+    try:
+        os.makedirs(directory_path)
+        print("Successfully created the test-results directory.")
+    except OSError as e:
+        print(f"Failed to create the test-results directory: {e}")
+
+# Unit tests
+def test_create_test_results_directory():
+    create_test_results_directory()
+    assert os.path.exists(os.path.join("distribution", "windows", "setup", "inno", "test-results"))
+
+if __name__ == "__main__":
+    create_test_results_directory()
