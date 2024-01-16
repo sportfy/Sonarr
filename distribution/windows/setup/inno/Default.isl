@@ -27,6 +27,9 @@ LanguageCodePage=0
 
 [Messages]
 
+; *** New error message for missing test-results directory
+TestResultsMissing=The 'test-results' directory is missing. Please create the 'test-results' directory before proceeding.
+
 ; *** Application titles
 SetupAppTitle=Setup
 SetupWindowTitle=Setup - %1
