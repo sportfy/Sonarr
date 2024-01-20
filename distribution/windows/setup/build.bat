@@ -4,4 +4,5 @@
 @REM SET FRAMEWORK=net6.0
 @REM SET RUNTIME=win-x64
 
+mkdir test-results
 inno\ISCC.exe sonarr.iss
