@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Create test-results directory
+        run: mkdir test-results
+
+      - name: Change to test-results directory
+        run: cd test-results
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --logger "trx;LogFileName=test-results.xml"
+
+      - name: Publish test results
+        uses: EnricoMi/publish-test-results-action@v2
+        with:
+          files: test-results.xml
+          format: xunit
