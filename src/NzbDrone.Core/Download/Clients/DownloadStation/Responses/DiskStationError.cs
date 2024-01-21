@@ -1,8 +1,19 @@
 ﻿using System.Collections.Generic;
 
 namespace NzbDrone.Core.Download.Clients.DownloadStation.Responses
+
+using System.IO;
 {
     public class DiskStationError
+    {
+        private static readonly string TestResultsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"test-results");
+
+        static DiskStationError()
+        {
+            if (!Directory.Exists(TestResultsPath))
+            {
+                Directory.CreateDirectory(TestResultsPath);
+            }
     {
         private static readonly Dictionary<int, string> CommonMessages;
         private static readonly Dictionary<int, string> AuthMessages;
