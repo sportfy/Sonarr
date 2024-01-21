@@ -24,6 +24,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Create test-results directory
+      run: mkdir -p test-results
     - name: Archive Artifact
       uses: thedoctor0/zip-release@0.7.5
       
