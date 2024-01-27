@@ -428,7 +428,6 @@
     "RemoveFailedDownloadsHelpText": "Entfernen Sie fehlgeschlagene Downloads aus dem Download-Client-Verlauf",
     "RemoveFromDownloadClient": "Vom Download-Client entfernen",
     "RemoveFromBlocklist": "Aus der Sperrliste entfernen",
-    "RemoveFromDownloadClientHelpTextWarning": "Durch das Entfernen werden der Download und die Datei(en) vom Download-Client entfernt.",
     "Age": "Alter",
     "All": "Alle",
     "RemovingTag": "Tag entfernen",
@@ -553,7 +552,7 @@
     "ApplyTagsHelpTextAdd": "Hinzufügen: Fügen Sie die Tags der vorhandenen Tag-Liste hinzu",
     "ApplyTagsHelpTextRemove": "Entfernen: Die eingegebenen Tags entfernen",
     "ApplyTagsHelpTextReplace": "Ersetzen: Ersetzen Sie die Tags durch die eingegebenen Tags (geben Sie keine Tags ein, um alle Tags zu löschen).",
-    "Wanted": "Gesucht",
+    "Wanted": "› Gesucht",
     "ConnectionLostToBackend": "{appName} hat die Verbindung zum Backend verloren und muss neu geladen werden, um die Funktionalität wiederherzustellen.",
     "Continuing": "Fortsetzung",
     "CopyUsingHardlinksHelpTextWarning": "Gelegentlich können Dateisperren das Umbenennen von Dateien verhindern, die geseedet werden. Sie können das Seeding vorübergehend deaktivieren und als Workaround die Umbenennungsfunktion von {appName} verwenden.",
@@ -679,7 +678,6 @@
     "Tomorrow": "Morgen",
     "AnimeEpisodeTypeDescription": "Veröffentlichte Episoden mit absoluter Episodennummer",
     "AnimeEpisodeTypeFormat": "Absolute Episodennummer ({format})",
-    "BlocklistReleaseSearchEpisodeAgainHelpText": "Startet erneut eine Suche nach dieser Episode und verhindert, dass diese Veröffentlichung erneut abgerufen wird",
     "CalendarLegendEpisodeDownloadedTooltip": "Die Episode wurde heruntergeladen und sortiert",
     "CalendarLegendEpisodeDownloadingTooltip": "Die Folge wird gerade heruntergeladen",
     "CalendarLegendEpisodeMissingTooltip": "Die Folge wurde ausgestrahlt und fehlt auf der Festplatte",
@@ -793,5 +791,6 @@
     "UpdateScriptPathHelpText": "Pfad zu einem benutzerdefinierten Skript, das ein extrahiertes Update-Paket übernimmt und den Rest des Update-Prozesses abwickelt",
     "Branch": "Branch",
     "Airs": "Wird ausgestrahlt",
-    "AddRootFolderError": "Stammverzeichnis kann nicht hinzugefügt werden"
+    "AddRootFolderError": "Stammverzeichnis kann nicht hinzugefügt werden",
+    "IconForCutoffUnmet": "Symbol für Schwelle nicht erreicht"
 }
