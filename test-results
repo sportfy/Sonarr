@@ -1,0 +1,3 @@
+The new file to be created is a directory named 'test-results' in the root of the Sonarr repository.
+
+Commit message: "feat: Create 'test-results' directory for GitHub Actions workflow"
