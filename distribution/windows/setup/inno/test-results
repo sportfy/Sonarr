@@ -1,0 +1,12 @@
+import os
+
+def create_test_results_directory():
+    # Check if the 'distribution/windows/setup/inno' directory exists
+    if not os.path.exists('distribution/windows/setup/inno'):
+        os.makedirs('distribution/windows/setup/inno')
+
+    # Create the 'test-results' directory inside the 'distribution/windows/setup/inno' directory
+    os.makedirs('distribution/windows/setup/inno/test-results')
+
+# Call the function to create the 'test-results' directory
+create_test_results_directory()
