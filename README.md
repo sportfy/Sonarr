@@ -8,6 +8,35 @@
 Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
 
 ## Getting Started
+- [Project Setup](#project-setup)
+- [Building and Testing](#building-and-testing)
+- [Running the Project](#running-the-project)
+- [GitHub Actions Workflow](#github-actions-workflow)
+- [Troubleshooting](#troubleshooting)
+## Project Setup
+<!-- Add project setup instructions here -->
+## Building and Testing
+<!-- Add building and testing instructions here -->
+## Running the Project
+<!-- Add running the project instructions here -->
+## GitHub Actions Workflow
+```markdown
+### GitHub Actions Workflow
+
+The project utilizes GitHub Actions for automated building, testing, and deployment. You can find the GitHub Actions workflow in the ".github/workflows/main.yml" file. It is triggered on pushes to the main branch and pull requests targeting the main branch.
+
+#### Troubleshooting
+If you encounter issues with GitHub Actions, make sure to check the following:
+- Ensure that the required environment variables and secrets are properly configured in the repository settings.
+- Verify the build, test, and deployment steps in the GitHub Actions workflow to identify any potential issues.
+- Check the GitHub Actions logs and error messages for details on the failure.
+
+If you are unable to resolve the issues, feel free to reach out to the project maintainers for assistance.
+
+If you are unable to resolve the issues, feel free to reach out to the project maintainers for assistance.
+```
+## Troubleshooting
+<!-- Add troubleshooting section here -->
 
 - [Download/Installation](https://sonarr.tv/#downloads-v3)
 - [FAQ](https://wiki.servarr.com/sonarr/faq)
