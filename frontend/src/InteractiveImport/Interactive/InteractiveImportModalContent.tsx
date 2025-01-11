@@ -29,12 +29,14 @@ import { align, icons, kinds, scrollDirections } from 'Helpers/Props';
 import SelectEpisodeModal from 'InteractiveImport/Episode/SelectEpisodeModal';
 import { SelectedEpisode } from 'InteractiveImport/Episode/SelectEpisodeModalContent';
 import ImportMode from 'InteractiveImport/ImportMode';
+import SelectIndexerFlagsModal from 'InteractiveImport/IndexerFlags/SelectIndexerFlagsModal';
 import InteractiveImport, {
   InteractiveImportCommandOptions,
 } from 'InteractiveImport/InteractiveImport';
 import SelectLanguageModal from 'InteractiveImport/Language/SelectLanguageModal';
 import SelectQualityModal from 'InteractiveImport/Quality/SelectQualityModal';
 import SelectReleaseGroupModal from 'InteractiveImport/ReleaseGroup/SelectReleaseGroupModal';
+import SelectReleaseTypeModal from 'InteractiveImport/ReleaseType/SelectReleaseTypeModal';
 import SelectSeasonModal from 'InteractiveImport/Season/SelectSeasonModal';
 import SelectSeriesModal from 'InteractiveImport/Series/SelectSeriesModal';
 import Language from 'Language/Language';
@@ -71,7 +73,9 @@ type SelectType =
   | 'episode'
   | 'releaseGroup'
   | 'quality'
-  | 'language';
+  | 'language'
+  | 'indexerFlags'
+  | 'releaseType';
 
 type FilterExistingFiles = 'all' | 'new';
 
@@ -127,6 +131,12 @@ const COLUMNS = [
     isVisible: true,
   },
   {
+    name: 'releaseType',
+    label: () => translate('ReleaseType'),
+    isSortable: true,
+    isVisible: true,
+  },
+  {
     name: 'customFormats',
     label: React.createElement(Icon, {
       name: icons.INTERACTIVE,
@@ -136,10 +146,20 @@ const COLUMNS = [
     isVisible: true,
   },
   {
+    name: 'indexerFlags',
+    label: React.createElement(Icon, {
+      name: icons.FLAG,
+      title: () => translate('IndexerFlags'),
+    }),
+    isSortable: true,
+    isVisible: true,
+  },
+  {
     name: 'rejections',
     label: React.createElement(Icon, {
       name: icons.DANGER,
       kind: kinds.DANGER,
+      title: () => translate('Rejections'),
     }),
     isSortable: true,
     isVisible: true,
@@ -284,8 +304,18 @@ function InteractiveImportModalContent(
       }
     }
 
+    const showIndexerFlags = items.some((item) => item.indexerFlags);
+
+    if (!showIndexerFlags) {
+      const indexerFlagsColumn = result.find((c) => c.name === 'indexerFlags');
+
+      if (indexerFlagsColumn) {
+        indexerFlagsColumn.isVisible = false;
+      }
+    }
+
     return result;
-  }, [showSeries]);
+  }, [showSeries, items]);
 
   const selectedIds: number[] = useMemo(() => {
     return getSelectedIds(selectedState);
@@ -342,6 +372,14 @@ function InteractiveImportModalContent(
       {
         key: 'language',
         value: translate('SelectLanguage'),
+      },
+      {
+        key: 'indexerFlags',
+        value: translate('SelectIndexerFlags'),
+      },
+      {
+        key: 'releaseType',
+        value: translate('SelectReleaseType'),
       },
     ];
 
@@ -483,7 +521,9 @@ function InteractiveImportModalContent(
           releaseGroup,
           quality,
           languages,
+          indexerFlags,
           episodeFileId,
+          releaseType,
         } = item;
 
         if (!series) {
@@ -532,6 +572,8 @@ function InteractiveImportModalContent(
               releaseGroup,
               quality,
               languages,
+              indexerFlags,
+              releaseType,
             });
 
             return;
@@ -546,6 +588,8 @@ function InteractiveImportModalContent(
           releaseGroup,
           quality,
           languages,
+          indexerFlags,
+          releaseType,
           downloadId,
           episodeFileId,
         });
@@ -742,6 +786,38 @@ function InteractiveImportModalContent(
     [selectedIds, dispatch]
   );
 
+  const onIndexerFlagsSelect = useCallback(
+    (indexerFlags: number) => {
+      dispatch(
+        updateInteractiveImportItems({
+          ids: selectedIds,
+          indexerFlags,
+        })
+      );
+
+      dispatch(reprocessInteractiveImportItems({ ids: selectedIds }));
+
+      setSelectModalOpen(null);
+    },
+    [selectedIds, dispatch]
+  );
+
+  const onReleaseTypeSelect = useCallback(
+    (releaseType: string) => {
+      dispatch(
+        updateInteractiveImportItems({
+          ids: selectedIds,
+          releaseType,
+        })
+      );
+
+      dispatch(reprocessInteractiveImportItems({ ids: selectedIds }));
+
+      setSelectModalOpen(null);
+    },
+    [selectedIds, dispatch]
+  );
+
   const orderedSelectedIds = items.reduce((acc: number[], file) => {
     if (selectedIds.includes(file.id)) {
       acc.push(file.id);
@@ -781,7 +857,7 @@ function InteractiveImportModalContent(
 
               <MenuContent>
                 <SelectedMenuItem
-                  name={'all'}
+                  name="all"
                   isSelected={!filterExistingFiles}
                   onPress={onFilterExistingFilesChange}
                 >
@@ -789,7 +865,7 @@ function InteractiveImportModalContent(
                 </SelectedMenuItem>
 
                 <SelectedMenuItem
-                  name={'new'}
+                  name="new"
                   isSelected={filterExistingFiles}
                   onPress={onFilterExistingFilesChange}
                 >
@@ -869,7 +945,7 @@ function InteractiveImportModalContent(
           <SelectInput
             className={styles.bulkSelect}
             name="select"
-            value={'select'}
+            value="select"
             values={bulkSelectOptions}
             isDisabled={!selectedIds.length}
             onChange={onSelectModalSelect}
@@ -944,6 +1020,22 @@ function InteractiveImportModalContent(
         real={false}
         modalTitle={modalTitle}
         onQualitySelect={onQualitySelect}
+        onModalClose={onSelectModalClose}
+      />
+
+      <SelectIndexerFlagsModal
+        isOpen={selectModalOpen === 'indexerFlags'}
+        indexerFlags={0}
+        modalTitle={modalTitle}
+        onIndexerFlagsSelect={onIndexerFlagsSelect}
+        onModalClose={onSelectModalClose}
+      />
+
+      <SelectReleaseTypeModal
+        isOpen={selectModalOpen === 'releaseType'}
+        releaseType="unknown"
+        modalTitle={modalTitle}
+        onReleaseTypeSelect={onReleaseTypeSelect}
         onModalClose={onSelectModalClose}
       />
 

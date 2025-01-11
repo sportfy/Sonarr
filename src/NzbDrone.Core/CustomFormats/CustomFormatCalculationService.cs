@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,9 @@ namespace NzbDrone.Core.CustomFormats
                 EpisodeInfo = remoteEpisode.ParsedEpisodeInfo,
                 Series = remoteEpisode.Series,
                 Size = size,
-                Languages = remoteEpisode.Languages
+                Languages = remoteEpisode.Languages,
+                IndexerFlags = remoteEpisode.Release?.IndexerFlags ?? 0,
+                ReleaseType = remoteEpisode.ParsedEpisodeInfo.ReleaseType
             };
 
             return ParseCustomFormat(input);
@@ -73,7 +76,9 @@ namespace NzbDrone.Core.CustomFormats
                 EpisodeInfo = episodeInfo,
                 Series = series,
                 Size = blocklist.Size ?? 0,
-                Languages = blocklist.Languages
+                Languages = blocklist.Languages,
+                IndexerFlags = blocklist.IndexerFlags,
+                ReleaseType = blocklist.ReleaseType
             };
 
             return ParseCustomFormat(input);
@@ -84,6 +89,8 @@ namespace NzbDrone.Core.CustomFormats
             var parsed = Parser.Parser.ParseTitle(history.SourceTitle);
 
             long.TryParse(history.Data.GetValueOrDefault("size"), out var size);
+            Enum.TryParse(history.Data.GetValueOrDefault("indexerFlags"), true, out IndexerFlags indexerFlags);
+            Enum.TryParse(history.Data.GetValueOrDefault("releaseType"), out ReleaseType releaseType);
 
             var episodeInfo = new ParsedEpisodeInfo
             {
@@ -99,7 +106,9 @@ namespace NzbDrone.Core.CustomFormats
                 EpisodeInfo = episodeInfo,
                 Series = series,
                 Size = size,
-                Languages = history.Languages
+                Languages = history.Languages,
+                IndexerFlags = indexerFlags,
+                ReleaseType = releaseType
             };
 
             return ParseCustomFormat(input);
@@ -122,6 +131,8 @@ namespace NzbDrone.Core.CustomFormats
                 Series = localEpisode.Series,
                 Size = localEpisode.Size,
                 Languages = localEpisode.Languages,
+                IndexerFlags = localEpisode.IndexerFlags,
+                ReleaseType = localEpisode.ReleaseType,
                 Filename = Path.GetFileName(localEpisode.Path)
             };
 
@@ -182,7 +193,7 @@ namespace NzbDrone.Core.CustomFormats
                 ReleaseTitle = releaseTitle,
                 Quality = episodeFile.Quality,
                 Languages = episodeFile.Languages,
-                ReleaseGroup = episodeFile.ReleaseGroup
+                ReleaseGroup = episodeFile.ReleaseGroup,
             };
 
             var input = new CustomFormatInput
@@ -191,7 +202,9 @@ namespace NzbDrone.Core.CustomFormats
                 Series = series,
                 Size = episodeFile.Size,
                 Languages = episodeFile.Languages,
-                Filename = Path.GetFileName(episodeFile.RelativePath)
+                IndexerFlags = episodeFile.IndexerFlags,
+                ReleaseType = episodeFile.ReleaseType,
+                Filename = Path.GetFileName(episodeFile.RelativePath),
             };
 
             return ParseCustomFormat(input, allCustomFormats);

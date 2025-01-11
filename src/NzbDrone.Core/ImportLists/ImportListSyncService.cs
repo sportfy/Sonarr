@@ -190,6 +190,29 @@ namespace NzbDrone.Core.ImportLists
                     item.Title = mappedSeries.Title;
                 }
 
+                // Map by MyAniList ID if we have it
+                if (item.TvdbId <= 0 && item.MalId > 0)
+                {
+                    var mappedSeries = _seriesSearchService.SearchForNewSeriesByMyAnimeListId(item.MalId)
+                        .FirstOrDefault();
+
+                    if (mappedSeries == null)
+                    {
+                        _logger.Debug("Rejected, unable to find matching TVDB ID for MAL ID: {0} [{1}]", item.MalId, item.Title);
+
+                        continue;
+                    }
+
+                    item.TvdbId = mappedSeries.TvdbId;
+                    item.Title = mappedSeries.Title;
+                }
+
+                if (item.TvdbId == 0)
+                {
+                    _logger.Debug("[{0}] Rejected, unable to find TVDB ID", item.Title);
+                    continue;
+                }
+
                 // Check to see if series excluded
                 var excludedSeries = listExclusions.Where(s => s.TvdbId == item.TvdbId).SingleOrDefault();
 
@@ -202,7 +225,7 @@ namespace NzbDrone.Core.ImportLists
                 // Break if Series Exists in DB
                 if (existingTvdbIds.Any(x => x == item.TvdbId))
                 {
-                    _logger.Debug("{0} [{1}] Rejected, Series Exists in DB", item.TvdbId, item.Title);
+                    _logger.Debug("{0} [{1}] Rejected, series exists in database", item.TvdbId, item.Title);
                     continue;
                 }
 
@@ -222,11 +245,14 @@ namespace NzbDrone.Core.ImportLists
                         QualityProfileId = importList.QualityProfileId,
                         SeriesType = importList.SeriesType,
                         SeasonFolder = importList.SeasonFolder,
+                        Seasons = item.Seasons,
                         Tags = importList.Tags,
                         AddOptions = new AddSeriesOptions
                         {
                             SearchForMissingEpisodes = importList.SearchForMissingEpisodes,
-                            Monitor = importList.ShouldMonitor
+
+                            // If seasons are provided use them for syncing monitored status, otherwise use the list setting.
+                            Monitor = item.Seasons.Any() ? MonitorTypes.Skip : importList.ShouldMonitor
                         }
                     });
                 }
@@ -273,12 +299,18 @@ namespace NzbDrone.Core.ImportLists
 
             var seriesToUpdate = new List<Series>();
             var seriesInLibrary = _seriesService.GetAllSeries();
+            var allListItems = _importListItemService.All();
 
             foreach (var series in seriesInLibrary)
             {
-                var seriesExists = _importListItemService.Exists(series.TvdbId, series.ImdbId);
+                var seriesExists = allListItems.Where(l =>
+                    l.TvdbId == series.TvdbId ||
+                    l.ImdbId == series.ImdbId ||
+                    l.TmdbId == series.TmdbId ||
+                    series.MalIds.Contains(l.MalId) ||
+                    series.AniListIds.Contains(l.AniListId)).ToList();
 
-                if (!seriesExists)
+                if (!seriesExists.Any())
                 {
                     switch (_configService.ListSyncLevel)
                     {

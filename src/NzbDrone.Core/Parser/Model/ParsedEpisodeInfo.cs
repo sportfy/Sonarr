@@ -24,6 +24,7 @@ namespace NzbDrone.Core.Parser.Model
         public bool IsMultiSeason { get; set; }
         public bool IsSeasonExtra { get; set; }
         public bool IsSplitEpisode { get; set; }
+        public bool IsMiniSeries { get; set; }
         public bool Special { get; set; }
         public string ReleaseGroup { get; set; }
         public string ReleaseHash { get; set; }
@@ -87,6 +88,29 @@ namespace NzbDrone.Core.Parser.Model
 
             private set
             {
+            }
+        }
+
+        public ReleaseType ReleaseType
+        {
+            get
+            {
+                if (EpisodeNumbers.Length > 1 || AbsoluteEpisodeNumbers.Length > 1)
+                {
+                    return Model.ReleaseType.MultiEpisode;
+                }
+
+                if (EpisodeNumbers.Length == 1 || AbsoluteEpisodeNumbers.Length == 1)
+                {
+                    return Model.ReleaseType.SingleEpisode;
+                }
+
+                if (FullSeason)
+                {
+                    return Model.ReleaseType.SeasonPack;
+                }
+
+                return Model.ReleaseType.Unknown;
             }
         }
 

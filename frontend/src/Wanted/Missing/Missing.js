@@ -12,6 +12,7 @@ import PageToolbarSection from 'Components/Page/Toolbar/PageToolbarSection';
 import PageToolbarSeparator from 'Components/Page/Toolbar/PageToolbarSeparator';
 import Table from 'Components/Table/Table';
 import TableBody from 'Components/Table/TableBody';
+import TableOptionsModalWrapper from 'Components/Table/TableOptions/TableOptionsModalWrapper';
 import TablePager from 'Components/Table/TablePager';
 import { align, icons, kinds } from 'Helpers/Props';
 import InteractiveImportModal from 'InteractiveImport/InteractiveImportModal';
@@ -158,11 +159,14 @@ class Missing extends Component {
         <PageToolbar>
           <PageToolbarSection>
             <PageToolbarButton
-              label={translate('SearchSelected')}
+              label={itemsSelected ? translate('SearchSelected') : translate('SearchAll')}
               iconName={icons.SEARCH}
-              isDisabled={!itemsSelected || isSearchingForMissingEpisodes}
-              onPress={this.onSearchSelectedPress}
+              isSpinning={isSearchingForMissingEpisodes}
+              isDisabled={isSearchingForMissingEpisodes}
+              onPress={itemsSelected ? this.onSearchSelectedPress : this.onSearchAllMissingPress}
             />
+
+            <PageToolbarSeparator />
 
             <PageToolbarButton
               label={isShowingMonitored ? translate('UnmonitorSelected') : translate('MonitorSelected')}
@@ -170,16 +174,6 @@ class Missing extends Component {
               isDisabled={!itemsSelected}
               isSpinning={isSaving}
               onPress={this.onToggleSelectedPress}
-            />
-
-            <PageToolbarSeparator />
-
-            <PageToolbarButton
-              label={translate('SearchAll')}
-              iconName={icons.SEARCH}
-              isDisabled={!items.length}
-              isSpinning={isSearchingForMissingEpisodes}
-              onPress={this.onSearchAllMissingPress}
             />
 
             <PageToolbarSeparator />
@@ -193,6 +187,16 @@ class Missing extends Component {
           </PageToolbarSection>
 
           <PageToolbarSection alignContent={align.RIGHT}>
+            <TableOptionsModalWrapper
+              {...otherProps}
+              columns={columns}
+            >
+              <PageToolbarButton
+                label={translate('Options')}
+                iconName={icons.TABLE}
+              />
+            </TableOptionsModalWrapper>
+
             <FilterMenu
               alignMenu={align.RIGHT}
               selectedFilterKey={selectedFilterKey}

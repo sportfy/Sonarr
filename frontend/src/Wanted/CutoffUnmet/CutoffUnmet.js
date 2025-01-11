@@ -12,6 +12,7 @@ import PageToolbarSection from 'Components/Page/Toolbar/PageToolbarSection';
 import PageToolbarSeparator from 'Components/Page/Toolbar/PageToolbarSeparator';
 import Table from 'Components/Table/Table';
 import TableBody from 'Components/Table/TableBody';
+import TableOptionsModalWrapper from 'Components/Table/TableOptions/TableOptionsModalWrapper';
 import TablePager from 'Components/Table/TablePager';
 import { align, icons, kinds } from 'Helpers/Props';
 import getFilterValue from 'Utilities/Filter/getFilterValue';
@@ -152,11 +153,14 @@ class CutoffUnmet extends Component {
         <PageToolbar>
           <PageToolbarSection>
             <PageToolbarButton
-              label={translate('SearchSelected')}
+              label={itemsSelected ? translate('SearchSelected') : translate('SearchAll')}
               iconName={icons.SEARCH}
-              isDisabled={!itemsSelected || isSearchingForCutoffUnmetEpisodes}
-              onPress={this.onSearchSelectedPress}
+              isDisabled={isSearchingForCutoffUnmetEpisodes}
+              isSpinning={isSearchingForCutoffUnmetEpisodes}
+              onPress={itemsSelected ? this.onSearchSelectedPress : this.onSearchAllCutoffUnmetPress}
             />
+
+            <PageToolbarSeparator />
 
             <PageToolbarButton
               label={isShowingMonitored ? translate('UnmonitorSelected') : translate('MonitorSelected')}
@@ -166,20 +170,19 @@ class CutoffUnmet extends Component {
               onPress={this.onToggleSelectedPress}
             />
 
-            <PageToolbarSeparator />
-
-            <PageToolbarButton
-              label={translate('SearchAll')}
-              iconName={icons.SEARCH}
-              isDisabled={!items.length}
-              isSpinning={isSearchingForCutoffUnmetEpisodes}
-              onPress={this.onSearchAllCutoffUnmetPress}
-            />
-
-            <PageToolbarSeparator />
           </PageToolbarSection>
 
           <PageToolbarSection alignContent={align.RIGHT}>
+            <TableOptionsModalWrapper
+              {...otherProps}
+              columns={columns}
+            >
+              <PageToolbarButton
+                label={translate('Options')}
+                iconName={icons.TABLE}
+              />
+            </TableOptionsModalWrapper>
+
             <FilterMenu
               alignMenu={align.RIGHT}
               selectedFilterKey={selectedFilterKey}
